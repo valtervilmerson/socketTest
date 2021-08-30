@@ -11,13 +11,13 @@ app.use(express.static("public"))
 
 const game = createGame()
 
-game.addPlayer({ playerId: "player1", playerX: 4, playerY: 6 })
-game.addFruit({ fruitId: "fruit1", fruitX: 2, fruitY: 4 })
-
 sockets.on("connection", function (socket) {
   const playerId = socket.id
   console.log(`>Player connected on Server with id: ${playerId}`)
 
+  game.addPlayer({playerId:playerId})
+        console.log(game.state)
+        
   socket.emit("setup", game.state)
 })
 

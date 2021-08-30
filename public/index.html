@@ -38,10 +38,10 @@
         const playerId = socket.id
         console.log(`Player connected on Client with id: ${playerId}`)
 
+        
         socket.on("setup", function (state) {
           console.log(`>Receiving "setup" event from server`)
-          console.log(state)
-          game.state = state
+          game.setState(state)
         })
       })
     </script>
