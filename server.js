@@ -11,6 +11,8 @@ app.use(express.static("public"))
 
 const game = createGame()
 
+//game.start()
+
 game.subscribe((command) => {
   console.log(`> Emiting ${command.type}`)
   sockets.emit(command.type, command)
@@ -34,6 +36,11 @@ sockets.on("connection", function (socket) {
     command.type = "move-player"
 
     game.movePlayer(command)
+  })
+
+  socket.on("start-game", () => {
+    console.log(`Receiving startGame`)
+    game.start()
   })
 })
 

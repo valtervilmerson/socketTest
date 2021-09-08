@@ -17,6 +17,9 @@
     <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
+    <div>
+      <button type="button" id="start">Start</button>
+    </div>
     <canvas id="screen" width="10" height="10"></canvas>
 
     <script type="module">
@@ -28,6 +31,16 @@
       const keyboardListener = createKeyboardListener(document)
 
       const socket = io()
+
+      function startGame() {
+        socket.emit("start-game")
+        console.log(`Emiting startGame`)
+      }
+
+      const button = document.getElementById("start")
+      button.addEventListener("click", () => {
+        startGame()
+      })
 
       socket.on("connect", function () {
         const playerId = socket.id
@@ -64,6 +77,15 @@
         if (playerId !== command.playerId) {
           game.movePlayer(command)
         }
+      })
+
+      socket.on("add-fruit", (command) => {
+        game.addFruit(command)
+      })
+
+      socket.on("remove-fruit", (command) => {
+        console.log(`Receiving ${command.type} -> ${command.fruitId}`)
+        game.removeFruit(command)
       })
     </script>
   </body>
